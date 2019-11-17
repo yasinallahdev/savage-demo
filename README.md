@@ -1,4 +1,10 @@
-![21 Savage](public/21savage.jpg)
+**SpongeBob Fan Site!**
+
+This app is a message board for SpongeBob SquarePants, where people can connect to write messages to our favorite little yellow sponge.
+
+![SpongeBob Image](https://snipboard.io/GA6mFv.jpg)
+
+![21 Savage](public/spongebob.png)
 
 ## Installation
 
