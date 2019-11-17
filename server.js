@@ -5,7 +5,9 @@ const MongoClient = require('mongodb').MongoClient
 
 var db, collection;
 
-const url = "mongodb+srv://demo:demo@cluster0-q2ojb.mongodb.net/test?retryWrites=true";
+const password = "R3vvUju0varPXEuE";
+
+const url = `mongodb+srv://FrostyPhoenixAdmin:${password}@rc-cluster-cn4jw.azure.mongodb.net/test?retryWrites=true&w=majority`;
 const dbName = "demo";
 
 app.listen(3000, () => {
@@ -14,7 +16,7 @@ app.listen(3000, () => {
             throw error;
         }
         db = client.db(dbName);
-        console.log("Connected to `" + dbName + "`!");
+        console.log(`Connected to '${dbName}'!`);
     });
 });
 
@@ -39,11 +41,26 @@ app.post('/messages', (req, res) => {
   })
 })
 
-app.put('/messages', (req, res) => {
+app.put('/upVote', (req, res) => {
   db.collection('messages')
   .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
     $set: {
-      thumbUp:req.body.thumbUp + 1
+      thumbUp: req.body.thumbUp + 1
+    }
+  }, {
+    sort: {_id: -1},
+    upsert: true
+  }, (err, result) => {
+    if (err) return res.send(err)
+    res.send(result)
+  })
+})
+
+app.put('/downVote', (req, res) => {
+  db.collection('messages')
+  .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
+    $set: {
+      thumbUp: Math.max(req.body.thumbUp - 1, 0)
     }
   }, {
     sort: {_id: -1},
